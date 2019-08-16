@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="majime",
-    version="0.0.3",
+    version="0.0.4",
     author="Uli Hitzel",
     author_email="uli.hitzel@gmail.com",
     description="Dead Simple API Unit Tests",
@@ -14,7 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/u1i/majime",
     packages=['majime'],
-    install_requires=['requests', 'pyyaml'],
+    install_requires=['requests', 'pyyaml', 'termcolor'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

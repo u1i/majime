@@ -1,1 +1,1 @@
-name = "b9y_cli"
+name = "majime"

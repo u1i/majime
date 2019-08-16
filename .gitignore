@@ -9,3 +9,4 @@ pip-selfcheck.json
 man/
 *egg-info
 dist/
+*yaml

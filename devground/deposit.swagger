@@ -1,0 +1,41 @@
+{
+	  "swagger" : "2.0",
+	  "host" : "backend.yoisho.dob.jp",
+	  "basePath" : "/fixeddeposit",
+	  "schemes" : [ "http", "https" ],
+	  "paths" : {
+	    "/calculate" : {
+	      "get" : {
+	        "description" : "Calculates the total interest earned from a fixed deposit, along with a breakdown for the number of years the deposit is running.",
+	        "operationId" : "calculate",
+	        "produces" : [ "application/json" ],
+	        "parameters" : [ {
+	          "description" : "The number of years the fixed deposit is running.",
+	          "required" : true,
+	          "in" : "query",
+	          "name" : "years",
+	          "type" : "string"
+	        }, {
+	          "description" : "The amount for the fixed deposit",
+	          "required" : true,
+	          "in" : "query",
+	          "name" : "amount",
+	          "type" : "string"
+	        } ],
+	        "responses" : {
+	          "200" : {
+	            "description" : "OK"
+	          },
+	          "400" : {
+	            "description" : "Invalid request"
+	          }
+	        }
+	      }
+	    }
+	  },
+	  "info" : {
+	    "title" : "Fixed Deposit Calculator",
+	    "description" : "",
+	    "version" : "1.0"
+	  }
+	}
