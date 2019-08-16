@@ -6,6 +6,7 @@ url="http://backend.yoisho.dob.jp/banking/v2/swagger"
 url="http://backend.yoisho.dob.jp/fx/swagger"
 swagger=requests.get(url).text
 data=json.loads(swagger)
+print (data["info"]["title"])
 print (data["host"])
 print (data["basePath"])
 print (data["schemes"])
