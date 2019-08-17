@@ -2,6 +2,7 @@
 import sys, json, yaml, requests, random, io
 import pkg_resources
 from termcolor import colored
+from urllib import parse
 
 version = pkg_resources.require("majime")[0].version
 
@@ -116,7 +117,8 @@ def generate_test(url):
 
                 f.write('   headers: ""\n')
 
-                if method == "POST":
+                if method == "POST" or method == "PUT":
+                    f.write('   content-type: "application/json"\n')
                     f.write('   body: "{}"\n')
                 f.write('   expect-response: "%s"\n' % response)
 
@@ -140,14 +142,18 @@ def perform_test(testfile):
 
     for majime_test in test_data["Tests"]:
         majime_url = majime_base + majime_test["path"]
-        majime_method = majime_base + majime_test["method"]
+        majime_queryparams = dict(parse.parse_qsl(parse.urlsplit(majime_url).query))
+        majime_baseurl = majime_url.split('?')[0].split('#')[0]
+        majime_method = majime_test["method"]
         majime_expect_response = majime_test["expect-response"]
 
-        headers = { 'Host': "%s" % majime_host}
+        headers = { 'User-Agent': "majime-%s" % version}
+        majime_payload = ""
 
-        response = requests.request(majime_method, majime_url, headers=headers)
+        print(majime_method, majime_baseurl, majime_queryparams )
+        response = requests.request(majime_method, majime_baseurl, data=majime_payload, params=majime_queryparams, headers=headers)
 
-        print(headers, majime_host, majime_url, response.status_code, response.text)
+        print(response.status_code, response.text)
 
 def print_help():
 
