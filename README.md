@@ -1,6 +1,11 @@
 ![](./resources/majime-logo1.png)
 
-Dead simple API Unit Testing
+/ma-ji-me/
+
+*noun*
+
+1. an earnest, reliable person who can get things done
+2. dead simple API Unit Testing
 
 ## Install
 
