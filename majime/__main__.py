@@ -145,15 +145,30 @@ def perform_test(testfile):
         majime_queryparams = dict(parse.parse_qsl(parse.urlsplit(majime_url).query))
         majime_baseurl = majime_url.split('?')[0].split('#')[0]
         majime_method = majime_test["method"]
+
+        try:
+            majime_ctype = majime_test["content-type"]
+        except:
+            majime_ctype = ""
         majime_expect_response = majime_test["expect-response"]
 
         headers = { 'User-Agent': "majime-%s" % version}
+
+        if majime_ctype != "":
+            headers["Content-Type"] = majime_ctype
         majime_payload = ""
 
-        print(majime_method, majime_baseurl, majime_queryparams )
+        # print("Method: %s URL: %s" % majime_method, majime_baseurl, majime_queryparams, majime_payload, headers )
+        print("%s %s" % (majime_method, majime_url ))
         response = requests.request(majime_method, majime_baseurl, data=majime_payload, params=majime_queryparams, headers=headers)
 
-        print(response.status_code, response.text)
+        code = response.status_code
+
+        if str(majime_expect_response) == str(code):
+            print (colored("HTTP " + str(code), "green" ))
+        else:
+            print (colored("HTTP " + str(code) + " but expected " + str(majime_expect_response), "red" ))
+
 
 def print_help():
 
@@ -172,6 +187,7 @@ def print_help():
      -j JSON output
      -d Dry-Run, do not execute tests - good for testing your YAML file
      -n no colors in output
+     -c do not stop on the first error
     ''')
 
 def main():
