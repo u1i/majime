@@ -41,6 +41,17 @@ Dead simple API Unit Testing
 		Query Parameters: ['currency']
 		Expected Response: 200
 
+##### Generated Output File
+
+    Base: "http://backend.yoisho.dob.jp/fx"
+    Tests:
+     # GET - Get the FX rate for desired currency
+     - path: "/currency?currency=USD"
+       method: "GET"
+       headers: ""
+       expect-response: "200"
+       expect-body: "json"
+
 #### Run Test Cases
 
 Modify the parameters so they make sense, in this case XXX-> USD.
