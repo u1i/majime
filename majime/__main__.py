@@ -119,7 +119,7 @@ def generate_test(url):
 
                 if method == "POST" or method == "PUT":
                     f.write('   content-type: "application/json"\n')
-                    f.write('   body: "{}"\n')
+                    f.write('   body: {}\n')
                 f.write('   expect-response: "%s"\n' % response)
 
                 if method == "GET":
@@ -150,13 +150,26 @@ def perform_test(testfile):
             majime_ctype = majime_test["content-type"]
         except:
             majime_ctype = ""
+
+        try:
+            majime_payload1 = majime_test["body"]
+            majime_payload = json.dumps(majime_payload1)
+
+        except:
+            majime_payload = ""
+
+        #print(majime_payload)
+
+        #print(type(majime_payload))
+        #majime_payload2 = str(majime_payload).replace("'", "\"")
+
+        #print(majime_payload2)
         majime_expect_response = majime_test["expect-response"]
 
         headers = { 'User-Agent': "majime-%s" % version}
 
         if majime_ctype != "":
             headers["Content-Type"] = majime_ctype
-        majime_payload = ""
 
         # print("Method: %s URL: %s" % majime_method, majime_baseurl, majime_queryparams, majime_payload, headers )
         print("%s %s" % (majime_method, majime_url ))

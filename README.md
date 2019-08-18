@@ -7,11 +7,17 @@
 1. an earnest, reliable person who can get things done
 2. dead simple API Unit Testing
 
+## What does it do?
+
+* majime runs test cases on API endpoints
+* test cases are defined in YAML files
+* majime can generate test cases from Swagger specs 
+
 ## Install
 
 `pip install majime`
 
-[Package on Pypi](https://pypi.org/project/majime/)
+Use a Python3 environment | [Package on Pypi](https://pypi.org/project/majime/)
 
 ## Usage
 
@@ -65,3 +71,5 @@ Modify the parameters so they make sense, in this case XXX-> USD.
 
     GET http://backend.yoisho.dob.jp/fx/currency?currency=USD
 	HTTP 200
+	
+Check out the [examples](./example).

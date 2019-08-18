@@ -1,0 +1,37 @@
+Base: "http://backend.yoisho.dob.jp/banking/v2"
+Tests:
+ # PUT
+ - path: "/atm/2222"
+   method: "PUT"
+   headers: ""
+   content-type: "application/json"
+   body: { "lat": "35.4657858", "lon": "139.6201245,17", "location": "Yokohama Station" }
+   expect-response: "200"
+
+ # DELETE
+ - path: "/atm/1"
+   method: "DELETE"
+   headers: ""
+   expect-response: "204"
+
+ # GET
+ - path: "/atm/1"
+   method: "GET"
+   headers: ""
+   expect-response: "200"
+   expect-body: "json"
+
+ # POST
+ - path: "/atm"
+   method: "POST"
+   headers: ""
+   content-type: "application/json"
+   body: { "lat": "35.4657858", "lon": "139.6201245,17", "location": "Yokohama Station" }
+   expect-response: "201"
+
+ # GET
+ - path: "/atm"
+   method: "GET"
+   headers: ""
+   expect-response: "200"
+   expect-body: "json"

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="majime",
-    version="0.0.5",
+    version="0.0.6",
     author="Uli Hitzel",
     author_email="uli.hitzel@gmail.com",
     description="Dead Simple API Unit Tests",
