@@ -140,6 +140,10 @@ def perform_test(testfile):
     majime_base = test_data["Base"]
     majime_host = majime_base.split("//")[-1].split("/")[0].split('?')[0]
 
+    tests_run = 0
+    tests_successful = 0
+    tests_failed = 0
+
     for majime_test in test_data["Tests"]:
         majime_url = majime_base + majime_test["path"]
         majime_queryparams = dict(parse.parse_qsl(parse.urlsplit(majime_url).query))
@@ -173,15 +177,29 @@ def perform_test(testfile):
 
         # print("Method: %s URL: %s" % majime_method, majime_baseurl, majime_queryparams, majime_payload, headers )
         print("%s %s" % (majime_method, majime_url ))
-        response = requests.request(majime_method, majime_baseurl, data=majime_payload, params=majime_queryparams, headers=headers)
+
+        try:
+            response = requests.request(majime_method, majime_baseurl, data=majime_payload, params=majime_queryparams, headers=headers)
+        except:
+            print ("Fatal error when running test. Is the endpoint reachable?")
+            sys.exit(1)
 
         code = response.status_code
 
+        tests_run += 1
         if str(majime_expect_response) == str(code):
             print (colored("HTTP " + str(code), "green" ))
+            tests_successful +=1
         else:
             print (colored("HTTP " + str(code) + " but expected " + str(majime_expect_response), "red" ))
+            tests_failed +=1
 
+    print("%s tests, %s successful and %s failed" % (tests_run, tests_successful, tests_failed))
+
+    if tests_failed == 0:
+        sys.exit(0)
+    else:
+        sys.exit(1)
 
 def print_help():
 
@@ -209,7 +227,7 @@ def main():
         output("Majime version " + str(version))
         sys.exit(0)
 
-    if '-h' in args:
+    if '-h' in args or args == {}:
         print_help()
         sys.exit(0)
 

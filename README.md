@@ -13,6 +13,8 @@
 * test cases are defined in YAML files
 * majime can generate test cases from Swagger specs 
 
+![](./resources/majtest2.png)
+
 ## Install
 
 `pip install majime`
