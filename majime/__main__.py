@@ -4,7 +4,11 @@ import pkg_resources
 from termcolor import colored
 from urllib import parse
 
-version = pkg_resources.require("majime")[0].version
+# This line is for pyinstaller and the binary release
+##VERSION_PARSE##
+
+if 'version' not in vars():
+    version = pkg_resources.require("majime")[0].version
 
 def getopts(argv):
     opts = {}
