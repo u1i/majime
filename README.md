@@ -17,9 +17,11 @@
 
 ## Install
 
-`pip install majime`
+`pip install majime` in a Python3 environment
 
-Use a Python3 environment | [Package on Pypi](https://pypi.org/project/majime/)
+Or get the binaries for [MacOS](https://github.com/u1i/majime/raw/master/releases/majime-darwin-386.zip) | Linux | Windows
+
+[Package on Pypi](https://pypi.org/project/majime/)
 
 ## Usage
 
