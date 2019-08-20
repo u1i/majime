@@ -5,7 +5,7 @@ from termcolor import colored
 from urllib import parse
 
 # This line is for pyinstaller and the binary release
-version="0.0.7"
+version="0.0.8"
 
 if 'version' not in vars():
     version = pkg_resources.require("majime")[0].version
@@ -83,6 +83,10 @@ def generate_test(url):
                     params = data["paths"][api_path][path_method]["parameters"]
                 except:
                     params = ""
+
+                if response == "default":
+                    response = "200"
+                    
                 query_parameters = []
 
                 params_str = ""

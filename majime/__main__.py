@@ -83,6 +83,10 @@ def generate_test(url):
                     params = data["paths"][api_path][path_method]["parameters"]
                 except:
                     params = ""
+
+                if response == "default":
+                    response = "200"
+                    
                 query_parameters = []
 
                 params_str = ""
