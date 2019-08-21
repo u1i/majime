@@ -11,7 +11,7 @@
 
 * majime runs test cases on API endpoints
 * test cases are defined in YAML files
-* majime can generate test cases from Swagger specs 
+* majime can generate test cases from Swagger specs
 
 ![](./resources/majtest2.png)
 
@@ -34,11 +34,8 @@ Or get the binaries for [MacOS](https://github.com/u1i/majime/raw/master/release
 
     Switches:
 
-     -s No output, just response code
      -j JSON output
      -d Dry-Run, do not execute tests - good for testing your YAML file
-     -n no colors in output
-     -c do not stop on the first error
 
 ## Example
 
@@ -75,5 +72,5 @@ Modify the parameters so they make sense, in this case XXX-> USD.
 
     GET http://backend.yoisho.dob.jp/fx/currency?currency=USD
 	HTTP 200
-	
+
 Check out the [examples](./example).

@@ -147,7 +147,7 @@ def generate_test(url):
     f.close()
     print(colored("\n%s created" % gen_file, "green"))
 
-def perform_test(testfile):
+def perform_test(testfile, output_format, dryrun):
 
     try:
         with open(testfile, 'r') as stream:
@@ -155,12 +155,18 @@ def perform_test(testfile):
     except:
         exit_with_errror("ERROR: cannot open or parse file")
 
+    if dryrun == "yes":
+        output(testfile + " successfully loaded.")
+        
     majime_base = test_data["Base"]
     majime_host = majime_base.split("//")[-1].split("/")[0].split('?')[0]
 
     tests_run = 0
     tests_successful = 0
     tests_failed = 0
+    json_out = {}
+    json_out["tests"] = []
+    json_out["output"] = {}
 
     for majime_test in test_data["Tests"]:
         majime_url = majime_base + majime_test["path"]
@@ -180,21 +186,12 @@ def perform_test(testfile):
         except:
             majime_payload = ""
 
-        #print(majime_payload)
-
-        #print(type(majime_payload))
-        #majime_payload2 = str(majime_payload).replace("'", "\"")
-
-        #print(majime_payload2)
         majime_expect_response = majime_test["expect-response"]
 
         headers = { 'User-Agent': "majime-%s" % version}
 
         if majime_ctype != "":
             headers["Content-Type"] = majime_ctype
-
-        # print("Method: %s URL: %s" % majime_method, majime_baseurl, majime_queryparams, majime_payload, headers )
-        print("%s %s" % (majime_method, majime_url ))
 
         try:
             response = requests.request(majime_method, majime_baseurl, data=majime_payload, params=majime_queryparams, headers=headers)
@@ -205,14 +202,33 @@ def perform_test(testfile):
         code = response.status_code
 
         tests_run += 1
-        if str(majime_expect_response) == str(code):
-            print (colored("HTTP " + str(code), "green" ))
-            tests_successful +=1
-        else:
-            print (colored("HTTP " + str(code) + " but expected " + str(majime_expect_response), "red" ))
-            tests_failed +=1
 
-    print("%s tests, %s successful and %s failed" % (tests_run, tests_successful, tests_failed))
+        if str(majime_expect_response) == str(code):
+            tests_successful +=1
+            json_out["tests"].append(dict(method=majime_method, url=majime_url, http_response=str(code), result="OK"))
+        else:
+            tests_failed +=1
+            json_out["tests"].append(dict(method=majime_method, url=majime_url, http_response=str(code), http_expected_response=majime_expect_response, result="FAIL"))
+
+    if tests_failed == 0:
+        json_out["output"]["overall_result"] = "OK"
+    else:
+        json_out["output"]["overall_result"] = "FAIL"
+
+    json_out["output"]["successful-tests"] = str(tests_successful)
+    json_out["output"]["failed-tests"] = str(tests_failed)
+
+    if output_format == "json":
+        print(str(json_out).replace("'","\""))
+    else:
+        for t in json_out["tests"]:
+            print("%s %s" % (t["method"], t["url"] ))
+            if t["result"] == "OK":
+                print (colored("HTTP " + str(t["http_response"]), "green" ))
+            else:
+                print (colored("HTTP " + str(t["http_response"]) + " but expected " + str(t["http_expected_response"]), "red" ))
+
+        print("%s tests, %s successful and %s failed" % (tests_run, tests_successful, tests_failed))
 
     if tests_failed == 0:
         sys.exit(0)
@@ -232,11 +248,8 @@ def print_help():
 
     Switches:
 
-     -s No output, just response code
-     -j JSON output
+     -j JSON output for test runs
      -d Dry-Run, do not execute tests - good for testing your YAML file
-     -n no colors in output
-     -c do not stop on the first error
     ''')
 
 def main():
@@ -249,13 +262,23 @@ def main():
         print_help()
         sys.exit(0)
 
+    if '-j' in args:
+        output_format = "json"
+    else:
+        output_format = "standard"
+
+    if '-d' in args:
+        dryrun = "yes"
+    else:
+        dryrun = "no"
+
     if '-g' in args:
         swagger_url = args['-g']
         generate_test(swagger_url)
 
     if '-f' in args:
         test_file = args['-f']
-        perform_test(test_file)
+        perform_test(test_file, output_format, dryrun=dryrun)
 
 if __name__ == '__main__':
     main()
