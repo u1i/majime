@@ -1,37 +1,38 @@
 Base: "http://backend.yoisho.dob.jp/banking/v2"
 Tests:
- # PUT
- - path: "/atm/2222"
+ # PUT - Update ATM Location
+ - path: "/atm/{id}"
    method: "PUT"
    headers: ""
    content-type: "application/json"
-   body: { "lat": "35.4657858", "lon": "139.6201245,17", "location": "Yokohama Station" }
+   body: {}
    expect-response: "200"
-
- # DELETE
- - path: "/atm/1"
+   
+ # DELETE - Delete ATM Location
+ - path: "/atm/{id}"
    method: "DELETE"
    headers: ""
    expect-response: "204"
-
- # GET
- - path: "/atm/1"
+   
+ # GET - Get ATM Location
+ - path: "/atm/{id}"
    method: "GET"
    headers: ""
    expect-response: "200"
    expect-body: "json"
-
- # POST
+   
+ # POST - Create ATM Location
  - path: "/atm"
    method: "POST"
    headers: ""
    content-type: "application/json"
-   body: { "lat": "35.4657858", "lon": "139.6201245,17", "location": "Yokohama Station" }
+   body: {"lat": "35.6925508", "lon": "139.6922616", "location": "Shinjuku Station"}
    expect-response: "201"
-
- # GET
+   
+ # GET - List Atm locations
  - path: "/atm"
    method: "GET"
    headers: ""
    expect-response: "200"
    expect-body: "json"
+   
