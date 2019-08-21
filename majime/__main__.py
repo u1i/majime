@@ -74,6 +74,16 @@ def generate_test(url):
                 except:
                     description = ""
 
+                try:
+                    description += data["paths"][api_path][path_method]["summary"]
+                except:
+                    dummy=1
+
+                try:
+                    example = data["paths"][api_path][path_method]["parameters"][0]["schema"]["example"]
+                except:
+                    example = {}
+
                 # We only want the first response
                 try:
                     response = list(data["paths"][api_path][path_method]["responses"].keys())[0]
@@ -86,7 +96,7 @@ def generate_test(url):
 
                 if response == "default":
                     response = "200"
-                    
+
                 query_parameters = []
 
                 params_str = ""
@@ -127,7 +137,7 @@ def generate_test(url):
 
                 if method == "POST" or method == "PUT":
                     f.write('   content-type: "application/json"\n')
-                    f.write('   body: {}\n')
+                    f.write('   body: %s\n' % str(example).replace("'", "\""))
                 f.write('   expect-response: "%s"\n' % response)
 
                 if method == "GET":
