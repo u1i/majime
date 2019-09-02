@@ -7,6 +7,8 @@
 1. an earnest, reliable person who can get things done
 2. dead simple API Unit Testing
 
+[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg) [![GitHub license](https://img.shields.io/github/license/u1i/majime.svg)](https://github.com/u1i/majime/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/u1i/majime.svg)](https://GitHub.com/u1i/majime/issues/) 
+
 ## What does it do?
 
 * majime runs test cases on API endpoints
