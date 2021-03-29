@@ -7,7 +7,7 @@ idna==2.8
 macholib==1.11
 majime==0.0.6
 pkginfo==1.5.0.1
-Pygments==2.4.2
+Pygments==2.7.4
 PyInstaller==3.5
 PyYAML==5.1.2
 readme-renderer==24.0
